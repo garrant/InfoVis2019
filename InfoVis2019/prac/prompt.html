@@ -1,0 +1,110 @@
+<html lang = "ja">
+  <head>
+    <meta charset = "utf-8">
+    <title>W02 task2</title>
+  </head>
+  <body>
+    <form>
+      <label for="textForm">v0：</label>
+      <label for="textForm">x0</label>
+      <input type="text" id="x0">
+      <label for="textForm">y0</label>
+      <input type="text" id="y0">
+      <label for="textForm">z0</label>
+      <input type="text" id="z0">
+
+      <br>
+
+      <label for="textForm">v1：</label>
+      <label for="textForm">x1</label>
+      <input type="text" id="x1">
+      <label for="textForm">y1</label>
+      <input type="text" id="y1">
+      <label for="textForm">z1</label>
+      <input type="text" id="z1">
+
+      <br>  
+
+      <label for="textForm">v2：</label>
+      <label for="textForm">x2</label>
+      <input type="text" id="x2">
+      <label for="textForm">y2</label>
+      <input type="text" id="y2">
+      <label for="textForm">z2</label>
+      <input type="text" id="z2">
+
+      <br>
+
+      <button id="button">submit</button>
+    </form>
+
+    <!--
+    <label for="s">Area of a triangle:</label>
+    <input type="text" id="result">
+    -->
+
+  </body>
+
+    <script src="vec3.js"></script> 
+    <script>
+      var button = document.getElementById("button");
+      button.addEventListener("click",function(e){
+        e.preventDefault();
+
+        var x0 = document.getElementById("x0").value;
+        var y0 = document.getElementById("y0").value;
+        var z0 = document.getElementById("z0").value;
+
+        var x1 = document.getElementById("x1").value;
+        var y1 = document.getElementById("y1").value;
+        var z1 = document.getElementById("z1").value;
+
+        var x2 = document.getElementById("x2").value;
+        var y2 = document.getElementById("y2").value;
+        var z2 = document.getElementById("z2").value;
+
+
+        var v0 = new Vec3(x0,y0,z0);
+        var v1 = new Vec3(x1,y1,z1);
+        var v2 = new Vec3(x2,y2,z2);
+
+        var v0v1 = sub(v0,v1);
+        var v0v2 = sub(v0,v2);
+
+        var s = document.getElementById("result");
+        s = AreaOfTriangle(v0v1,v0v2);
+        s = Math.floor(s * 10) / 10;
+
+        document.write("Area of a triangle = " + s);
+
+      });
+      /*
+      var x0 = parseInt(prompt("x0を入力してください"));
+      var y0 = parseInt(prompt("y0を入力してください"));
+      var z0 = parseInt(prompt("z0を入力してください"));
+      var x1 = parseInt(prompt("x1を入力してください"));
+      var y1 = parseInt(prompt("y1を入力してください"));
+      var z1 = parseInt(prompt("z1を入力してください"));
+      var x2 = parseInt(prompt("x2を入力してください"));
+      var y2 = parseInt(prompt("y2を入力してください"));
+      var z2 = parseInt(prompt("z2を入力してください"));
+<<<<<<< HEAD
+
+      var v0 = new Vec3(x0,y0,z0);
+      var v1 = new Vec3(x1,y1,z1);
+      var v2 = new Vec3(x2,y2,z2);
+
+      var v0v1 = sub(v0,v1);
+      var v0v2 = sub(v0,v2);
+
+      var s = AreaOfTriangle(v0v1,v0v2);
+      s = Math.floor(s * 10) / 10;
+
+      document.write("v0 = ["+ x0 +","+ y0 + "," + z0 + "]<br>" , "v1 = ["+ x1 +"," + y1 + "," + z1 + "]<br>" , "v2 = ["+ x2+"," + y2 + ","  + z2 + "]<br>")
+
+      document.write("Area of a triangle = " + s);
+=======
+      */
+>>>>>>> origin/master
+    </script>
+</html>

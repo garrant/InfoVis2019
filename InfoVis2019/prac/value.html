@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>Value</title>
+  </head>
+  <body>
+
+    <script>
+      function conv(x) {
+	  document.getElementById("fahrenheit").value = 1.8 * parseFloat(x.value) + 32;
+      }
+    </script>
+    <label>v0:<input id="celsius" onchange="conv(this)"></label></p>
+
+    <input id="fahrenheit" readonly></p>
+  </body>
+</html>
