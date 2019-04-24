@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <meta charset = "utf-8">
+    <title>W06 task3</title>
+  </head>
+  <body>
+    <script src="https://mrdoob.github.io/three.js/build/three.min.js"></script>
+    <script type="x-shader/x-vertex" id="Blinn.vert">
+      varying vec3 point_color;
+      varying vec4 point_position;
+      varying vec3 normal_vector;
+      varying vec3 E;
+ 
+
+      void main()
+      {
+	  vec3 color = vec3(0.1,0.5,0.356);
+	  point_color = color;
+	  point_position = modelViewMatrix * vec4(position,1.0);
+	  normal_vector = normalMatrix * normal;
+	  E = cameraPosition - position; //視点ベクトル
+
+	  gl_Position = projectionMatrix * point_position;
+
+      }
+    </script>
+
+    <script type="x-shader/x-fragment" id = "Blinn.frag">
+      varying vec3 point_color;
+      varying vec4 point_position;
+      varying vec3 normal_vector;
+      varying vec3 E;
+      uniform vec3 light_position;
+      
+      
+      //Blinn-Phong reflection funtion here
+      //Blinn-Phongは法線ベクトルとハーフベクトルの内積のべき乗で計算する。
+      vec3 Blinn_PhongReflection(vec3 C,vec3 L,vec3 N,vec3 E)
+      {
+	  float ka = 0.4; //Ambient reflection coefficient
+	  float kd = 0.5; //Diffuse reflection coefficient
+	  float ks = 0.6; //Specular reflection coefficient
+	  float n = 50.0; // Effect of shininess exponent
+
+	  vec3 H = E+L/abs(E+L); //Half Vector
+	  float dd = max(dot(N,L),0.0);
+	  float ds = pow(max(dot(N,H),0.0),n);
+	  if(dd <= 0.0){ds=0.0;}
+
+	  float Ia = ka;
+	  float Id = ka * dd;
+	  float Is = ks * ds;
+	  return C * (Ia + Id + Is);
+      }
+      
+      void main()
+      {
+	  vec3 C = point_color; 
+	  vec3 L = normalize(light_position - point_position.xyz); //Light direction
+	  vec3 N = normalize( normal_vector ); //Normal vectior
+	  vec3 E = normalize( E );
+	  
+	  
+	  vec3 shaded_color = Blinn_PhongReflection(C,L,N,E);	  
+	  gl_FragColor = vec4( shaded_color,1.0 );
+      }
+    </script>      
+    <script src="main05.js"></script>
+    <script>
+      main();
+    </script>
+  </body>
+</html>
