@@ -15,7 +15,7 @@ THREE.Lut = function ( colormap, numberofcolors ) {
 
     for ( var i = 0; i <= 1; i += step ) {
 
-	for ( var j = 1; j < this.map.length - 1; j ++ ) {
+	for ( var j = 0; j < this.map.length - 2; j ++ ) {
 
 	    if ( i >= this.map[ j ][ 0 ] && i < this.map[ j + 1 ][ 0 ] ) {
 
@@ -179,7 +179,7 @@ THREE.Lut.prototype = {
 	for ( var i = 1; i >= 0; i -= step ) {
 	    //document.write(i);
 
-	    for ( var j = this.map.length -1; j >= 1; j -- ) {
+	    for ( var j = this.map.length - 1; j >= 1; j -- ) {
 
 		if ( i < this.map[ j ][ 0 ] && i >= this.map[ j - 1 ][ 0 ]  ) {
 
