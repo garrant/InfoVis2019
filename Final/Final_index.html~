@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title>Final Task</title>
+  </head>
+  
+  <body style="margin:0">
+    <div id="display" style="width: 80%; float: left;"></div>
+    <div id="controller" style="width:20%; float:left;">
+      <h1>Overview</h1>
+      <p>Techniques used in this final report is changing lobstar color. It is can be applied by sliding the lower slider and pressing the "Apply" button. The width of the color number is 0 to 255. <br>It is a rainbow color map shown below the image. The lobstar after application is displayed below the upper lobstar.</p>
+      <img src="1.png" width="50%" height="50%">
+      
+      <label id="label" style="font-family:Arial;"></label>
+      <input type="range" min="0" max="255" step="1" value="126" id="isovalue"/>
+      <span id="value">126</span>
+      <button id="change-isovalue-button" style="font-family=Arial;">
+	Apply</button>
+    </div>
+
+    <script>
+      var elem = document.getElementById('isovalue');
+      var target = document.getElementById('value');
+      var rangeValue = function (elem, target) {
+	  return function(evt){
+	      target.innerHTML = elem.value;
+	  }
+      }
+      elem.addEventListener('input', rangeValue(elem, target));
+    </script>
+
+    
+    <script src="three.min.js"></script>
+    <script type="x-shader/x-vertex" id="gouraud.vert">
+      varying vec3 point_color;
+      varying vec4 point_position;
+      varying vec3 normal_vector;
+      uniform vec3 light_position;
+      
+      //LambertianReflection funtion here   
+      vec3 LambertianReflection(vec3 C,vec3 L,vec3 N)
+      {
+	  float ka = 0.4;
+	  float kd = 0.6;
+	  float dd = max(dot(N,L),0.0);
+	  float Ia = ka;
+	  float Id = kd*dd;
+	  return C * (Ia + Id);
+      }
+      
+      void main()
+      {	  
+	  point_position = modelViewMatrix * vec4(position,1.0);
+	  normal_vector = normalMatrix * normal;
+	  
+	  vec3 C = color;
+	  vec3 L = normalize(light_position - point_position.xyz);
+	  vec3 N = normalize(normal_vector);
+	  point_color = LambertianReflection(C,L,N);
+	  gl_Position = projectionMatrix * point_position;
+      }
+    </script>
+
+    <script type="x-shader/x-fragment" id = "gouraud.frag">
+      varying vec3 point_color;
+      
+      void main()
+      {
+	  gl_FragColor = vec4(point_color,1.0);
+      }
+    </script>
+
+    <script src="TrackballControls.js"></script>
+    <script src="https://threejs.org/examples/js/math/Lut.js"></script>
+    <script src="https://naohisas.github.io/KVS.js/Build/KVS.min.js"></script>
+    <script src="https://naohisas.github.io/KVS.js/Build/KVS2THREE.min.js"></script>
+    <script src="https://naohisas.github.io/KVS.js/Source/KVSLobsterData.js"></script>
+    <script src="Bounds.js"></script>
+    <script src="Isosurfaces_final.js"></script>
+    <script src="final_main.js"></script>
+    <script>
+      isovalue = 126;
+      main(isovalue);
+    </script>
+    <script>
+      var button = document.getElementById("change-isovalue-button");
+      button.addEventListener("click",function(){
+          //e.preventDefault();
+	  var isovalue = document.getElementById("isovalue").value;
+	  main(isovalue);
+      });
+    </script>
+  </body>
+</html>
